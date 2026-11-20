@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0B2733">
+<title>Happy Birthday!</title>
+<meta name="description" content="A birthday card, made just for you.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 132 132'%3E%3Cg transform='translate(0 27)' fill='none' stroke='%23FC4C02' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 39C30 2 102 2 126 39C102 76 30 76 6 39Z'/%3E%3Cpath d='M46 39H86M52 31V47M62 31V47M72 31V47M82 31V47'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:ital,wght@0,400;0,500;1,400&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --aqua: #008E97;
+    --orange: #FC4C02;
+    --navy: #0B2733;
+    --light: #C9E6E8;
+    /* Card width: fits the phone, keeps the 5.5 x 8.5 shape of the printed card */
+    --w: min(86vw, 430px, calc((100vh - 150px) * 0.647));
+    --h: calc(var(--w) * 1.54545);
+    --u: calc(var(--w) / 528); /* 1 unit = 1px on the printed card */
+  }
+  @supports (height: 100svh) {
+    :root { --w: min(86vw, 430px, calc((100svh - 150px) * 0.647)); }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    min-height: 100vh;
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    color: var(--navy);
+    background: var(--navy);
+    overflow-x: hidden;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+      repeating-linear-gradient(0deg, rgba(201, 230, 232, .045) 0 2px, transparent 2px 72px),
+      radial-gradient(120% 70% at 50% 16%, #17495b 0%, #0B2733 62%, #071c25 100%);
+  }
+
+  .stage {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: max(28px, calc((100vh - var(--h) - 84px) / 2)) 0 calc(48px + env(safe-area-inset-bottom));
+  }
+  @supports (height: 100svh) {
+    body, .stage { min-height: 100svh; }
+    .stage { padding-top: max(28px, calc((100svh - var(--h) - 84px) / 2)); }
+  }
+
+  /* ---------- The card ---------- */
+  .card {
+    position: relative;
+    width: var(--w);
+    min-height: var(--h);
+    perspective: 1800px;
+    transition: transform 1s cubic-bezier(.3, .7, .2, 1);
+  }
+
+  .cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: var(--w);
+    height: var(--h);
+    transform-origin: left center;
+    transform-style: preserve-3d;
+    transition: transform 1.15s cubic-bezier(.3, .6, .2, 1), opacity .35s ease .8s;
+    cursor: pointer;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    animation: peek 4.6s ease-in-out 1.4s infinite;
+  }
+  .cover:focus-visible .front { box-shadow: 0 0 0 4px var(--orange), 0 18px 44px rgba(0, 0, 0, .38); }
+  .card.open .cover {
+    height: 100%; /* matches the note page once it grows */
+    transform: rotateY(-180deg);
+    pointer-events: none;
+    animation: none;
+  }
+  @keyframes peek {
+    0%, 72%, 100% { transform: rotateY(0deg); }
+    82% { transform: rotateY(-13deg); }
+  }
+
+  .face {
+    position: absolute;
+    inset: 0;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    box-shadow: 0 18px 44px rgba(0, 0, 0, .38);
+  }
+  .face.front {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: calc(64 * var(--u)) calc(56 * var(--u));
+  }
+  .face.back {
+    transform: rotateY(180deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(270deg, #eef3f4 0, #fff 30px);
+  }
+  .face.back svg { width: calc(96 * var(--u)); color: var(--light); }
+
+  .stripes {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: calc(7 * var(--u));
+  }
+  .stripes i {
+    display: block;
+    height: calc(10 * var(--u));
+    border-radius: 999px;
+    background: var(--aqua);
+  }
+  .stripes i:nth-child(2) { background: var(--orange); }
+
+  .center, .bottom {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .hero { display: block; width: calc(300 * var(--u)); height: auto; margin-bottom: calc(10 * var(--u)); }
+  .line-art {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .hero .fb {
+    color: var(--orange);
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    animation: wobble 2.8s ease-in-out infinite;
+  }
+  .card.open .hero .fb { animation: none; }
+  @keyframes wobble {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+  }
+  .happy {
+    font: 500 calc(60 * var(--u))/1.1 'Oswald', sans-serif;
+    letter-spacing: calc(10 * var(--u));
+    padding-left: calc(10 * var(--u));
+    color: var(--aqua);
+    white-space: nowrap;
+  }
+  .birthday {
+    font: 700 calc(88 * var(--u))/1.1 'Oswald', sans-serif;
+    letter-spacing: calc(2 * var(--u));
+    padding-left: calc(2 * var(--u));
+    color: var(--navy);
+    white-space: nowrap;
+  }
+  .laces { display: block; width: calc(120 * var(--u)); height: auto; margin-top: calc(14 * var(--u)); color: var(--orange); }
+  .tagline {
+    font: italic 400 calc(22 * var(--u))/1.3 'Inter', sans-serif;
+    color: var(--navy);
+    margin-bottom: calc(28 * var(--u));
+    white-space: nowrap;
+  }
+
+  /* ---------- Inside: the note ---------- */
+  .note {
+    position: relative;
+    width: var(--w);
+    height: var(--h);
+    min-height: var(--h);
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 18px 44px rgba(0, 0, 0, .38);
+    transition: height .8s cubic-bezier(.3, .7, .2, 1);
+    outline: none;
+  }
+  .note::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 28px;
+    background: linear-gradient(90deg, rgba(11, 39, 51, .09), transparent);
+    pointer-events: none;
+  }
+  .note-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: clamp(24px, 7.5vw, 36px) clamp(20px, 6.5vw, 34px) 24px;
+  }
+  .mini-stripes { width: 150px; display: flex; flex-direction: column; gap: 4px; }
+  .mini-stripes i { display: block; height: 6px; border-radius: 999px; background: var(--aqua); }
+  .mini-stripes i:nth-child(2) { background: var(--orange); }
+  .note h1 {
+    margin-top: 16px;
+    font: 500 22px/1.2 'Oswald', sans-serif;
+    letter-spacing: 5px;
+    padding-left: 5px;
+    color: var(--navy);
+    white-space: nowrap;
+  }
+
+  .letter {
+    width: 100%;
+    margin-top: 22px;
+    font-size: clamp(15px, 4.2vw, 16.5px);
+    line-height: 1.62;
+  }
+  .letter p { margin-bottom: .85em; }
+  .letter .greet {
+    font: 500 1.4em/1.2 'Oswald', sans-serif;
+    letter-spacing: 1px;
+    color: var(--aqua);
+    margin-bottom: .5em;
+  }
+  .letter .toast { font-style: italic; }
+  .letter .closing { margin-bottom: .1em; }
+  .letter .sign {
+    font: 700 2.7em/1.05 'Caveat', 'Segoe Script', cursive;
+    color: var(--aqua);
+    margin: .12em 0 0;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .card.open .reveal {
+    opacity: 1;
+    transform: none;
+    transition-delay: calc(var(--i, 0) * 240ms + 750ms);
+  }
+
+  /* ---------- Field goal ---------- */
+  .fg {
+    width: 100%;
+    margin-top: 22px;
+    padding: 16px 14px 16px;
+    border-radius: 14px;
+    background: linear-gradient(180deg, #eef7f8, #dceff0);
+    text-align: center;
+  }
+  .fg h2 {
+    font: 500 15px/1.2 'Oswald', sans-serif;
+    letter-spacing: 3px;
+    padding-left: 3px;
+    color: var(--aqua);
+  }
+  .fg .lead { margin-top: 4px; font-size: 14px; line-height: 1.45; color: #23444f; }
+  .field {
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    margin: 6px auto 0;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .fg-msg {
+    min-height: 30px;
+    font: 700 21px/30px 'Oswald', sans-serif;
+    letter-spacing: 2px;
+    color: var(--orange);
+  }
+  .fg-msg.pop { animation: pop .5s cubic-bezier(.2, 1.6, .4, 1); }
+  @keyframes pop {
+    from { transform: scale(.6); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .kick {
+    margin-top: 6px;
+    font: 700 16px/1 'Oswald', sans-serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--navy);
+    background: var(--orange);
+    border: 0;
+    border-radius: 999px;
+    padding: 14px 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #b83600;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .kick:active { transform: translateY(3px); box-shadow: 0 1px 0 #b83600; }
+  .kick:focus-visible { outline: 3px solid var(--navy); outline-offset: 3px; }
+  .fg-score { margin-top: 14px; font-size: 14px; color: #23444f; }
+  .fg-score b { font-weight: 500; color: var(--navy); }
+  .fg-fine { margin-top: 2px; font-size: 13px; font-style: italic; color: #23444f; }
+
+  /* ---------- Under the card ---------- */
+  .hint {
+    margin-top: 22px;
+    font: 500 15px/1.2 'Oswald', sans-serif;
+    letter-spacing: 4px;
+    padding-left: 4px;
+    text-transform: uppercase;
+    color: var(--light);
+    animation: pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: .55; }
+    50% { opacity: 1; }
+  }
+  .ghost {
+    margin-top: 24px;
+    font: 500 13px/1 'Oswald', sans-serif;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--light);
+    background: transparent;
+    border: 1.5px solid rgba(201, 230, 232, .5);
+    border-radius: 999px;
+    padding: 12px 20px;
+    cursor: pointer;
+  }
+  .ghost:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
+  [hidden] { display: none !important; }
+
+  #confetti {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* Wide screens: show the card as an open spread. Phones: the cover swings away. */
+  @media (min-width: 920px) {
+    .card.open { transform: translateX(50%); }
+  }
+  @media (max-width: 919.98px) {
+    .card.open .cover { opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation: none !important;
+      transition-duration: .01ms !important;
+      transition-delay: 0ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<main class="stage">
+  <div class="card" id="card">
+
+    <!-- Inside of the card -->
+    <section class="note" id="note" aria-label="Birthday note" tabindex="-1" inert>
+      <div class="note-inner">
+        <div class="mini-stripes" aria-hidden="true"><i></i><i></i><i></i></div>
+        <h1>HAPPY BIRTHDAY</h1>
+
+        <div class="letter">
+          <p class="greet reveal">Sir,</p>
+          <p class="reveal">Happy birthday! I'm so glad we're finally meeting, and I couldn't ask for a better occasion than celebrating you.</p>
+          <p class="reveal">Thank you for raising such a wonderful daughter. Her kindness, her humor, and her big heart say a lot about the home she comes from, and I don't take it lightly that I get to be part of her life.</p>
+          <p class="reveal">I hope this year brings you good health, great company, and plenty of wins, on Sundays and every other day of the week.</p>
+          <p class="toast reveal">Here's to a winning year.</p>
+          <p class="closing reveal">With respect and gratitude,</p>
+          <p class="sign reveal">Del</p>
+        </div>
+
+        <div class="fg reveal">
+          <h2>ONE MORE THING</h2>
+          <p class="lead">Every birthday deserves a game-winner. Go ahead, kick it.</p>
+          <svg class="field" id="field" viewBox="0 0 320 176" role="img" aria-label="A football lined up in front of the goalposts">
+            <!-- field lines -->
+            <g fill="none" stroke="#008E97" stroke-opacity=".28" stroke-width="2" stroke-linecap="round">
+              <path d="M34 174 L118 112"/>
+              <path d="M286 174 L202 112"/>
+              <path d="M118 112 H202"/>
+              <path d="M96 128 H224"/>
+              <path d="M66 150 H254"/>
+            </g>
+            <!-- goalposts -->
+            <g id="posts" fill="none" stroke="#FC4C02" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M160 112 V78"/>
+              <path d="M118 18 V78 H202 V18"/>
+            </g>
+            <!-- ball -->
+            <g id="ball" transform="translate(160 150)">
+              <g transform="rotate(-72) scale(.34) translate(-66 -39)" fill="#fff" stroke="#0B2733" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 39 C 30 2, 102 2, 126 39 C 102 76, 30 76, 6 39 Z"/>
+                <path fill="none" stroke-width="6" d="M46 39 H86 M52 31 V47 M62 31 V47 M72 31 V47 M82 31 V47"/>
+              </g>
+            </g>
+          </svg>
+          <p class="fg-msg" id="fgMsg" aria-live="polite"></p>
+          <button class="kick" id="kickBtn" type="button">Kick the field goal</button>
+          <p class="fg-score">Birthday points: <b id="fgScore">0</b></p>
+          <p class="fg-fine">Today, they're all good.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cover (swings open) -->
+    <div class="cover" id="cover" role="button" tabindex="0" aria-expanded="false" aria-controls="note" aria-label="Happy Birthday card. Tap to open.">
+      <div class="face front">
+        <div class="stripes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+        <div class="center">
+          <svg class="hero" viewBox="0 0 300 150" aria-hidden="true">
+            <!-- confetti -->
+            <circle cx="16" cy="104" r="3" fill="#C9E6E8"/>
+            <circle cx="40" cy="96" r="4" fill="#008E97"/>
+            <rect x="16" y="58" width="12" height="4" rx="2" fill="#FC4C02" transform="rotate(-30 22 60)"/>
+            <circle cx="58" cy="52" r="3" fill="#FC4C02"/>
+            <rect x="64" y="20" width="12" height="4" rx="2" fill="#008E97" transform="rotate(40 70 22)"/>
+            <circle cx="98" cy="38" r="3.5" fill="#C9E6E8"/>
+            <rect x="114" y="8" width="12" height="4" rx="2" fill="#FC4C02" transform="rotate(-15 120 10)"/>
+            <circle cx="150" cy="26" r="4" fill="#008E97"/>
+            <rect x="172" y="6" width="12" height="4" rx="2" fill="#C9E6E8" transform="rotate(25 178 8)"/>
+            <circle cx="200" cy="36" r="3" fill="#FC4C02"/>
+            <rect x="222" y="20" width="12" height="4" rx="2" fill="#008E97" transform="rotate(-40 228 22)"/>
+            <circle cx="242" cy="54" r="3.5" fill="#008E97"/>
+            <rect x="270" y="56" width="12" height="4" rx="2" fill="#FC4C02" transform="rotate(30 276 58)"/>
+            <circle cx="262" cy="96" r="4" fill="#C9E6E8"/>
+            <rect x="279" y="102" width="10" height="4" rx="2" fill="#008E97" transform="rotate(-20 284 104)"/>
+            <!-- football -->
+            <g transform="translate(84 66)">
+              <g class="fb line-art">
+                <path d="M6 39 C 30 2, 102 2, 126 39 C 102 76, 30 76, 6 39 Z"/>
+                <path d="M28 21 C 34 31, 34 47, 28 57"/>
+                <path d="M104 21 C 98 31, 98 47, 104 57"/>
+                <line x1="46" y1="39" x2="86" y2="39"/>
+                <line x1="52" y1="31" x2="52" y2="47"/>
+                <line x1="62" y1="31" x2="62" y2="47"/>
+                <line x1="72" y1="31" x2="72" y2="47"/>
+                <line x1="82" y1="31" x2="82" y2="47"/>
+              </g>
+            </g>
+          </svg>
+          <div class="happy">HAPPY</div>
+          <div class="birthday">BIRTHDAY</div>
+          <svg class="laces line-art" viewBox="0 0 120 20" aria-hidden="true">
+            <path d="M10 10 H110 M33 3 V17 M51 3 V17 M69 3 V17 M87 3 V17"/>
+          </svg>
+        </div>
+
+        <div class="bottom">
+          <p class="tagline">Here's to a winning year.</p>
+          <div class="stripes" aria-hidden="true"><i></i><i></i><i></i></div>
+        </div>
+      </div>
+
+      <div class="face back" aria-hidden="true">
+        <svg class="line-art" viewBox="0 0 132 78">
+          <path d="M6 39 C 30 2, 102 2, 126 39 C 102 76, 30 76, 6 39 Z"/>
+          <path d="M28 21 C 34 31, 34 47, 28 57"/>
+          <path d="M104 21 C 98 31, 98 47, 104 57"/>
+          <line x1="46" y1="39" x2="86" y2="39"/>
+          <line x1="52" y1="31" x2="52" y2="47"/>
+          <line x1="62" y1="31" x2="62" y2="47"/>
+          <line x1="72" y1="31" x2="72" y2="47"/>
+          <line x1="82" y1="31" x2="82" y2="47"/>
+        </svg>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="hint" id="hint">Tap the card to open</p>
+  <button class="ghost" id="closeBtn" type="button" hidden>Close the card</button>
+</main>
+
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<script>
+(() => {
+  const card = document.getElementById('card');
+  const cover = document.getElementById('cover');
+  const note = document.getElementById('note');
+  const hint = document.getElementById('hint');
+  const closeBtn = document.getElementById('closeBtn');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll('.reveal').forEach((el, i) => el.style.setProperty('--i', i));
+
+  /* ---------- Confetti ---------- */
+  const cv = document.getElementById('confetti');
+  const ctx = cv.getContext('2d');
+  const COLORS = ['#008E97', '#FC4C02', '#C9E6E8', '#FFFFFF'];
+  let parts = [], raf = 0, last = 0;
+
+  function fit() {
+    const d = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = Math.round(innerWidth * d);
+    cv.height = Math.round(innerHeight * d);
+    ctx.setTransform(d, 0, 0, d, 0, 0);
+  }
+  addEventListener('resize', fit);
+  fit();
+
+  function burst(x, y, count) {
+    if (reduce) return;
+    for (let i = 0; i < count; i++) {
+      const a = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.25;
+      const v = 5 + Math.random() * 11;
+      parts.push({
+        x, y,
+        vx: Math.cos(a) * v,
+        vy: Math.sin(a) * v,
+        w: 6 + Math.random() * 6,
+        h: 9 + Math.random() * 7,
+        r: Math.random() * 6.28,
+        vr: (Math.random() - 0.5) * 0.35,
+        flip: Math.random() * 6.28,
+        c: COLORS[i % COLORS.length],
+        round: Math.random() < 0.25,
+        life: 0,
+        ttl: 150 + Math.random() * 90
+      });
+    }
+    if (!raf) { last = performance.now(); raf = requestAnimationFrame(tick); }
+  }
+
+  function tick(now) {
+    const dt = Math.min(2.5, (now - last) / 16.67);
+    last = now;
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    parts = parts.filter(p => p.life < p.ttl && p.y < innerHeight + 40);
+    for (const p of parts) {
+      p.life += dt;
+      p.vy += 0.3 * dt;
+      p.vx *= Math.pow(0.985, dt);
+      p.x += p.vx * dt;
+      p.y += p.vy * dt;
+      p.r += p.vr * dt;
+      p.flip += 0.16 * dt;
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, Math.min(1, (p.ttl - p.life) / 30));
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.r);
+      ctx.fillStyle = p.c;
+      if (p.round) {
+        ctx.beginPath();
+        ctx.arc(0, 0, p.w / 2, 0, 6.2832);
+        ctx.fill();
+      } else {
+        const hh = p.h * Math.abs(Math.cos(p.flip));
+        ctx.fillRect(-p.w / 2, -hh / 2, p.w, hh);
+      }
+      ctx.restore();
+    }
+    raf = parts.length ? requestAnimationFrame(tick) : 0;
+    if (!raf) ctx.clearRect(0, 0, innerWidth, innerHeight);
+  }
+
+  /* ---------- Open / close ---------- */
+  function openCard(instant) {
+    if (card.classList.contains('open')) return;
+    const from = note.offsetHeight;
+    const to = Math.max(note.scrollHeight, from);
+    card.classList.add('open');
+    cover.setAttribute('aria-expanded', 'true');
+    cover.setAttribute('tabindex', '-1');
+    note.removeAttribute('inert');
+    hint.hidden = true;
+    closeBtn.hidden = false;
+
+    if (instant || reduce) {
+      note.style.height = 'auto';
+    } else {
+      note.style.height = from + 'px';
+      requestAnimationFrame(() => requestAnimationFrame(() => { note.style.height = to + 'px'; }));
+      setTimeout(() => { if (card.classList.contains('open')) note.style.height = 'auto'; }, 1100);
+      setTimeout(() => {
+        const r = card.getBoundingClientRect();
+        burst(r.left + r.width / 2, r.top + Math.min(r.height, innerHeight) * 0.35, 150);
+      }, 380);
+    }
+    note.focus({ preventScroll: true });
+  }
+
+  function closeCard() {
+    if (!card.classList.contains('open')) return;
+    note.style.height = note.offsetHeight + 'px';
+    void note.offsetHeight;
+    card.classList.remove('open');
+    note.style.height = '';
+    note.setAttribute('inert', '');
+    cover.setAttribute('aria-expanded', 'false');
+    cover.setAttribute('tabindex', '0');
+    hint.hidden = false;
+    closeBtn.hidden = true;
+    scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+    cover.focus({ preventScroll: true });
+  }
+
+  cover.addEventListener('click', () => openCard(false));
+  cover.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCard(false); }
+  });
+  closeBtn.addEventListener('click', closeCard);
+
+  /* ---------- Field goal ---------- */
+  const field = document.getElementById('field');
+  const ball = document.getElementById('ball');
+  const msg = document.getElementById('fgMsg');
+  const scoreEl = document.getElementById('fgScore');
+  const kickBtn = document.getElementById('kickBtn');
+  const CALLS = ["IT'S GOOD!", 'RIGHT DOWN THE MIDDLE!', 'NOTHING BUT UPRIGHTS!', "THAT'S A WINNING YEAR!"];
+  const START = { x: 160, y: 150 };
+  let kicks = 0, busy = false;
+
+  function place(x, y, rot, s, o) {
+    ball.setAttribute('transform',
+      'translate(' + x.toFixed(2) + ' ' + y.toFixed(2) + ') rotate(' + rot.toFixed(1) + ') scale(' + s.toFixed(3) + ')');
+    ball.style.opacity = o;
+  }
+
+  function kick() {
+    if (busy) return;
+    busy = true;
+    msg.classList.remove('pop');
+    msg.textContent = '';
+    const drift = (Math.random() - 0.5) * 30;
+    const dur = reduce ? 0 : 1050;
+    const t0 = performance.now();
+    const frame = (now) => {
+      const t = dur ? Math.min(1, Math.max(0, (now - t0) / dur)) : 1;
+      const e = 1 - Math.pow(1 - t, 2.4);
+      const fade = t > 0.86 ? 1 - ((t - 0.86) / 0.14) * 0.85 : 1;
+      place(START.x + drift * e, START.y - 104 * e, 620 * t, 1 - 0.64 * e, fade);
+      if (t < 1) requestAnimationFrame(frame); else landed();
+    };
+    requestAnimationFrame(frame);
+  }
+
+  function landed() {
+    kicks++;
+    msg.textContent = CALLS[(kicks - 1) % CALLS.length];
+    void msg.offsetWidth;
+    msg.classList.add('pop');
+    scoreEl.textContent = String(kicks * 3);
+    kickBtn.textContent = 'Kick another';
+    const r = field.getBoundingClientRect();
+    burst(r.left + r.width / 2, r.top + r.height * 0.3, 90);
+    setTimeout(() => {
+      place(START.x, START.y, 0, 1, 0);
+      ball.style.transition = 'opacity .35s ease';
+      requestAnimationFrame(() => { ball.style.opacity = 1; });
+      setTimeout(() => { ball.style.transition = ''; busy = false; }, 400);
+    }, reduce ? 0 : 750);
+  }
+
+  kickBtn.addEventListener('click', kick);
+  field.addEventListener('click', kick);
+
+  /* #open in the address opens the card right away */
+  if (location.hash === '#open') openCard(true);
+})();
+</script>
+</body>
+</html>
